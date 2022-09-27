@@ -23,13 +23,33 @@ def corr_std_norm(corrMat, numOfPath):
     numOfAssets = a_corr.shape[0]
     a_l = np.linalg.cholesky(a_corr)
     a_uncorr = np.random.normal(size=(numOfPath, numOfAssets))
-    z = (np.matmul(a_l, a_l.transpose()))
-
-    pass
+    a_corr = np.dot(a_uncorr, a_l.transpose())
+    return a_corr
 
 
 def test_corr_std_norm():
     corr_mat = [[1.0, -.8], [-.8, 1.0]]
-    print(corr_std_norm(corr_mat, 1000))
-
+    a_corr = corr_std_norm(corr_mat, 1000)
+    print(np.corrcoef(a_corr.transpose()))
 test_corr_std_norm()
+
+def corr_norm(corrMat, alfa, sigma, numOfPath):
+    a_corr = np.array(corrMat)
+    numOfAssets = a_corr.shape[0]
+    a_l = np.linalg.cholesky(a_corr)
+    a_uncorr = np.random.normal(size=(numOfPath, numOfAssets))
+    a_corr = np.dot(a_uncorr, a_l.transpose())
+    a_res = a_corr * np.array(sigma) + np.array(alfa)
+    return a_res
+
+def test_corr_norm():
+    corr_mat = [[1.0, -.8], [-.8, 1.0]]
+    alfa = [0.08, .0495]
+    sigma = [0.2, 0.1]
+    a_res = corr_norm(corr_mat, alfa, sigma, 10000)
+    print(np.mean(a_res, axis=0))
+    print(np.std(a_res, axis=0))
+
+test_corr_norm()
+
+
