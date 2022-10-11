@@ -12,4 +12,6 @@ print(df_pivot)
 
 df['Stock Name'] = df['Stock'].apply(lambda x: x[0])
 
+df['Stock Name2'] = df['Stock'].apply(lambda x: x.split('_')[0])
+
 print(df)
