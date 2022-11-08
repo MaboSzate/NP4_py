@@ -2,10 +2,10 @@ from scipy.stats import norm
 import numpy as np
 import matplotlib.pyplot as plt
 
-from opciok import Option
+from opciok_class import Option
 
 # put-call paritás
-K = 360
+K = 100
 expiry = "20221215"
 C = Option("C", 1, K, expiry)
 P = Option("P", -1, K, expiry)
@@ -21,5 +21,10 @@ prices = [C.calc_price(s, 1, vola) for s in spots]
 pays = [C.payoff(s) for s in spots]
 
 plt.plot(spots, pays, spots, prices)
-plt.show()
+#plt.show()
+
+
+cvola = C.calcVola(S,t,110)
+print(cvola, C.calc_price(S,t,cvola))
+
 
